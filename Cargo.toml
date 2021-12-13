@@ -1,0 +1,6 @@
+[workspace]
+members = [
+    "touch_controller",
+    "touch_controller_api",
+    "touch_controller_plugin_core"
+]

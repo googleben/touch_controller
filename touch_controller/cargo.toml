@@ -1,0 +1,20 @@
+[package]
+name = "touch_controller"
+version = "0.1.0"
+authors = ["GoogleBen <william.ben.wyatt@gmail.com>"]
+edition = "2018"
+
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+actix-web = "4.0.0-beta"
+actix-web-actors = "4.0.0-beta"
+actix-service = "2.0.0"
+actix-files = "0.6.0-beta.7"
+futures-core = "0.3.17"
+serde = "1.0"
+serde_json = "1.0"
+abi_stable = "0.10"
+touch_controller_api = { path = "../touch_controller_api" }
+anyhow = "1.0"
