@@ -3,7 +3,7 @@ use std::sync::Arc;
 use abi_stable::{StableAbi, erased_types::TD_Opaque, library::RootModule, marker_type::ErasedObject, package_version_strings, sabi_trait, std_types::{RArc, RHashMap, ROption, RString, RVec, Tuple2}};
 
 #[repr(C)]
-#[derive(StableAbi)]
+#[derive(StableAbi, Debug)]
 pub enum RJsonValue {
     Null,
     Bool(bool),
@@ -14,7 +14,7 @@ pub enum RJsonValue {
 }
 
 #[repr(C)]
-#[derive(StableAbi)]
+#[derive(StableAbi, Debug)]
 pub struct RJsonNumber {
     is_i64: bool,
     is_u64: bool,

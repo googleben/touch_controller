@@ -1,0 +1,6 @@
+{
+	"name": "core",
+	"author": "GoogleBen",
+	"version": "0.1",
+	"dynamic_libs": ["touch_controller_plugin_core.dll"]
+}

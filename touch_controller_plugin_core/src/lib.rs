@@ -9,7 +9,7 @@ extern crate touch_controller_api;
 
 pub extern "C" fn get_websocket_actions() -> RVec<Tuple2<RString, WebsocketActionObj>> {
     let mut ans = RVec::new();
-    ans.push(Tuple2(RString::new(), StatelessWebsocketAction::new(Arc::new(|x| {ROption::RNone}))));
+    ans.push(Tuple2(RString::from("println"), StatelessWebsocketAction::new(Arc::new(|x| {println!("{:?}", x); ROption::RNone}))));
     ans
 }
 

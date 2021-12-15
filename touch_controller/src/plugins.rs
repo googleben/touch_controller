@@ -75,7 +75,7 @@ pub fn load_plugin(folder: &Path) -> Result<()> {
         vec!()
     };
     let ans = PluginInfo {
-        name: manifest.name,
+        name: manifest.name.clone(),
         author: manifest.author,
         version: manifest.version,
         folder_path: folder.to_owned(),
@@ -83,6 +83,11 @@ pub fn load_plugin(folder: &Path) -> Result<()> {
         plugins: plugins.into_boxed_slice()
     };
     STATE.plugins.write().unwrap().push(ans);
+    let mut www_dir = folder.to_owned();
+    www_dir.push("www");
+    if www_dir.is_dir() {
+        STATE.static_file_dirs.write().unwrap().insert(manifest.name, www_dir);
+    }
     Ok(())
 }
 

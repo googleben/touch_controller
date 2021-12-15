@@ -1,0 +1,5 @@
+{
+	"pluginName": "core",
+	"componentName": "WebsocketButton",
+	"componentProps": {"text": "hello", "onClickWs": "hellows"}
+}

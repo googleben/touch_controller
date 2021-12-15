@@ -1,7 +1,8 @@
 import { request } from "https";
 import React from "react";
+import ReactDOM from "react-dom";
 
-type PluginScript = Record<string, React.ComponentType>;
+import {PluginScript, GlobalInfo} from "./api";
 
 const loadedPlugins: Record<string, PluginScript> = {};
 
@@ -13,24 +14,37 @@ type ComponentInfo = {
 
 async function getComponent(pluginName: string, componentName: string): Promise<React.ComponentType> {
     if (typeof loadedPlugins[pluginName] === 'undefined') {
-        let pluginProm: Promise<PluginScript> = import("/plugins/"+pluginName+"/index.ts");
+        // let pluginProm: Promise<PluginScript> = fetch("/plugins/"+pluginName+"/index.js")
+        //     .then(res => res.text())
+        //     .then(text => {
+        //         let url = "data:text/javascript;charset=utf-8,"+encodeURIComponent(text);
+        //         return import(url);
+        //     });
+        let loc = window.location;
+        let url = "/plugins/"+pluginName+"/index.js";
+        let pluginProm = await eval("import(\""+url+"\")");
         let plugin = await pluginProm;
-        loadedPlugins[pluginName] = plugin;
+        loadedPlugins[pluginName] = plugin.default;
     }
     return loadedPlugins[pluginName][componentName];
 }
 
-type GlobalInfo = {
-    getComponent: (pluginName: string, componentName: string) => Promise<React.ComponentType>;
-};
+function get_websocket_url() {
+    let loc = window.location;
+    let new_uri = loc.protocol==="https:" ? "wss:" : "ws:";
+    new_uri += "//" + loc.host + "/websocket";
+    return new_uri;
+}
 
-const GLOBAL_INFO: GlobalInfo = {getComponent: getComponent};
+const WEBSOCKET = new WebSocket(get_websocket_url());
+
+const GLOBAL_INFO: GlobalInfo = {getComponent: getComponent, getWebsocket: () => WEBSOCKET};
 
 class View extends React.Component<{globalInfo: GlobalInfo, viewName: string}, {componentInfo?: ComponentInfo, inner?: React.ComponentType}> {
     constructor(props: {globalInfo: GlobalInfo, viewName: string}) {
         super(props);
         this.state = {};
-        fetch("/views/"+this.props.viewName)
+        fetch("/static/views/"+this.props.viewName+".json")
             .then(res => res.json())
             .then(data => this.setComponentInfo(data));
     }
@@ -40,7 +54,7 @@ class View extends React.Component<{globalInfo: GlobalInfo, viewName: string}, {
             .then(c => this.setState({inner: c}));
     }
     render() {
-        return this.state.inner ? <this.state.inner {...this.state.componentInfo?.componentProps} /> : <p>Loading...</p>;
+        return this.state.inner ? <this.state.inner globalInfo={this.props.globalInfo} {...this.state.componentInfo?.componentProps} /> : <p>Loading...</p>;
     }
 }
 
@@ -52,8 +66,9 @@ class App extends React.Component<{}, {width: number, height: number}> {
     render() {
         return (
             <div style={{width: this.state.width + "px", height: this.state.height + "px"}}>
-                <View viewName="home" globalInfo={GLOBAL_INFO} />
+                <View viewName="default" globalInfo={GLOBAL_INFO} />
             </div>
         );
     }
 }
+ReactDOM.render(<App />, document.getElementById("app"));
