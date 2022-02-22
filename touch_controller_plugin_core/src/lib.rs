@@ -1,6 +1,6 @@
 use std::sync::Arc;
 
-use abi_stable::{export_root_module, marker_type::ErasedObject, prefix_type::PrefixTypeTrait, std_types::{RArc, RBox, ROption, RString, RVec, Tuple2}};
+use abi_stable::{export_root_module, marker_type::ErasedObject, prefix_type::PrefixTypeTrait, std_types::{RArc, ROption, RString, RVec, Tuple2}};
 use touch_controller_api::{StatelessWebsocketAction, TouchControllerPlugin, TouchControllerPlugin_Ref, WebsocketActionObj};
 
 extern crate touch_controller_api;

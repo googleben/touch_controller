@@ -1,14 +1,22 @@
-cd ./touch_controller
-cargo build
-cd ../touch_controller_api
-cargo build
-cd ../touch_controller_plugin_core
-cargo build
-cd ../touch_controller_plugin_core_frontend
+param(
+    [switch]$web = $false
+)
+
+if (!$web) {
+    Set-Location ./touch_controller
+    cargo build
+    Set-Location ../touch_controller_api
+    cargo build
+    Set-Location ../touch_controller_plugin_core
+    cargo build
+    Set-Location ..
+}
+
+Set-Location ./touch_controller_plugin_core_frontend
 yarn build
-cd ../touch_controller_www
+Set-Location ../touch_controller_www
 yarn build
-cd ..
-copy .\touch_controller_plugin_core_frontend\dist\index.js .\plugins\core\www\
-copy .\target\debug\touch_controller_plugin_core.dll .\plugins\core\
-copy .\touch_controller_www\dist\index.js .\www\js
+Set-Location ..
+if (!$web) {
+    Copy-Item .\target\debug\touch_controller_plugin_core.dll .\plugins\core\
+}

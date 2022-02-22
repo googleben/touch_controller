@@ -1,0 +1,12 @@
+.websocketButton {
+    cursor: pointer;
+    position: relative;
+    background-color: #4c4;
+    color: rgb(40, 40, 40);
+    font-weight: 600;
+    box-shadow: 2px 2px 5px -2px black;
+    border-radius: 5px;
+    box-sizing: border-box;
+    overflow: hidden;
+    overflow-wrap: anywhere;
+}

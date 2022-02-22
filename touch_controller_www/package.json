@@ -11,6 +11,9 @@
   },
   "scripts": {
     "build": "webpack",
-    "postbuild": "tsc -p tsconfig.json --emitDeclarationOnly --declaration --declarationDir ./dist/@types --skipLibCheck"
+    "watch": "webpack --watch"
+  },
+  "devDependencies": {
+    "filemanager-webpack-plugin": "^6.1.7"
   }
 }

@@ -4,6 +4,10 @@ version = "0.1.0"
 authors = ["GoogleBen <william.ben.wyatt@gmail.com>"]
 edition = "2018"
 
+[lib]
+name = "touch_controller_api"
+crate-type = ["lib"]
+
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
